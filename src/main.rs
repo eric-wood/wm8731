@@ -17,12 +17,22 @@ impl WM8731 {
         }
     }
 
-    pub fn line_in(c: fn(&mut LineIn)) -> Register {
+    pub fn left_line_in(c: fn(&mut LineIn)) -> Register {
         let mut li = LineIn::new();
         c(&mut li);
 
         Register {
             position: 0,
+            value: li.data,
+        }
+    }
+
+    pub fn right_line_in(c: fn(&mut LineIn)) -> Register {
+        let mut li = LineIn::new();
+        c(&mut li);
+
+        Register {
+            position: 1,
             value: li.data,
         }
     }
