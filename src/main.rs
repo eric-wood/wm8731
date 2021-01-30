@@ -10,6 +10,9 @@ use headphone_out::HeadphoneOut;
 mod analog_audio_path;
 use analog_audio_path::AnalogAudioPath;
 
+mod digital_audio_path;
+use digital_audio_path::DigitalAudioPath;
+
 pub struct Register {
     address: u8,
     value: u16,
@@ -75,6 +78,16 @@ impl WM8731 {
         Register {
             address: 4,
             value: aap.data,
+        }
+    }
+
+    pub fn digital_audio_path(c: fn(&mut DigitalAudioPath)) -> Register {
+        let mut dap = DigitalAudioPath::new();
+        c(&mut dap);
+
+        Register {
+            address: 5,
+            value: dap.data,
         }
     }
 }
