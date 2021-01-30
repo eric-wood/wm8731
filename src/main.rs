@@ -4,6 +4,9 @@ use power_down::PowerDown;
 mod line_in;
 use line_in::LineIn;
 
+mod headphone_out;
+use headphone_out::HeadphoneOut;
+
 pub struct WM8731 {}
 
 impl WM8731 {
@@ -36,10 +39,30 @@ impl WM8731 {
             value: li.data,
         }
     }
+
+    pub fn right_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
+        let mut ho = HeadphoneOut::new();
+        c(&mut ho);
+
+        Register {
+            position: 2,
+            value: ho.data,
+        }
+    }
+
+    pub fn left_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
+        let mut ho = HeadphoneOut::new();
+        c(&mut ho);
+
+        Register {
+            position: 3,
+            value: ho.data,
+        }
+    }
 }
 
 pub struct Register {
-    position: u16,
+    position: u8,
     value: u16,
 }
 
