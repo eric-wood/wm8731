@@ -26,10 +26,14 @@ mod tests {
 
     #[test]
     fn power_down() {
-        let result = WM8731::power_down(|c| c.line_input());
+        let result = WM8731::power_down(|c| {
+            c.line_input();
+            c.adc();
+            c.dac();
+        });
 
         assert_eq!(result.position, 9);
-        assert_eq!(result.value, 0b0_0000_0001);
+        assert_eq!(result.value, 0b0_0000_1101);
     }
 }
 
