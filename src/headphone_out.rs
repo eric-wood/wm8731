@@ -11,11 +11,10 @@ impl HeadphoneOut {
   }
 
   pub fn mute(&mut self) {
-    self.data = self.data | 0b_0_0000_0010
+    self.data = self.data | 0b_0_1000_0000
   }
 
   pub fn both(&mut self) {
-    // what the heck does this do?!
-    self.data = self.data | 0b_0_0000_0001
+    self.data = self.data | 0b_1_0000_0000
   }
 }

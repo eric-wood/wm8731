@@ -13,6 +13,9 @@ use analog_audio_path::AnalogAudioPath;
 mod digital_audio_path;
 use digital_audio_path::DigitalAudioPath;
 
+mod digital_audio_interface_format;
+use digital_audio_interface_format::DigitalAudioInterfaceFormat;
+
 pub struct Register {
     address: u8,
     value: u16,
@@ -88,6 +91,16 @@ impl WM8731 {
         Register {
             address: 6,
             value: pd.data,
+        }
+    }
+
+    pub fn digital_audio_interface_format(c: fn(&mut DigitalAudioInterfaceFormat)) -> Register {
+        let mut daif = DigitalAudioInterfaceFormat::new();
+        c(&mut daif);
+
+        Register {
+            address: 7,
+            value: daif.data,
         }
     }
 }
