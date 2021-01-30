@@ -7,6 +7,9 @@ use line_in::LineIn;
 mod headphone_out;
 use headphone_out::HeadphoneOut;
 
+mod analog_audio_path;
+use analog_audio_path::AnalogAudioPath;
+
 pub struct WM8731 {}
 
 impl WM8731 {
@@ -57,6 +60,16 @@ impl WM8731 {
         Register {
             position: 3,
             value: ho.data,
+        }
+    }
+
+    pub fn analog_audio_path(c: fn(&mut AnalogAudioPath)) -> Register {
+        let mut aap = AnalogAudioPath::new();
+        c(&mut aap);
+
+        Register {
+            position: 4,
+            value: aap.data,
         }
     }
 }
