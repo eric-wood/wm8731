@@ -121,5 +121,3 @@ mod tests {
         assert_eq!(result.value, 0b0_0000_1101);
     }
 }
-
-pub fn main() {}
