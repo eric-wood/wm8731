@@ -10,6 +10,11 @@ use headphone_out::HeadphoneOut;
 mod analog_audio_path;
 use analog_audio_path::AnalogAudioPath;
 
+pub struct Register {
+    address: u8,
+    value: u16,
+}
+
 pub struct WM8731 {}
 
 impl WM8731 {
@@ -18,7 +23,7 @@ impl WM8731 {
         c(&mut pd);
 
         Register {
-            position: 9,
+            address: 9,
             value: pd.data,
         }
     }
@@ -28,7 +33,7 @@ impl WM8731 {
         c(&mut li);
 
         Register {
-            position: 0,
+            address: 0,
             value: li.data,
         }
     }
@@ -38,7 +43,7 @@ impl WM8731 {
         c(&mut li);
 
         Register {
-            position: 1,
+            address: 1,
             value: li.data,
         }
     }
@@ -48,7 +53,7 @@ impl WM8731 {
         c(&mut ho);
 
         Register {
-            position: 2,
+            address: 2,
             value: ho.data,
         }
     }
@@ -58,7 +63,7 @@ impl WM8731 {
         c(&mut ho);
 
         Register {
-            position: 3,
+            address: 3,
             value: ho.data,
         }
     }
@@ -68,15 +73,10 @@ impl WM8731 {
         c(&mut aap);
 
         Register {
-            position: 4,
+            address: 4,
             value: aap.data,
         }
     }
-}
-
-pub struct Register {
-    position: u8,
-    value: u16,
 }
 
 #[cfg(test)]
@@ -91,7 +91,7 @@ mod tests {
             c.dac();
         });
 
-        assert_eq!(result.position, 9);
+        assert_eq!(result.address, 9);
         assert_eq!(result.value, 0b0_0000_1101);
     }
 }
