@@ -1,6 +1,9 @@
 mod power_down;
 use power_down::PowerDown;
 
+mod line_in;
+use line_in::LineIn;
+
 pub struct WM8731 {}
 
 impl WM8731 {
@@ -13,11 +16,21 @@ impl WM8731 {
             value: pd.data,
         }
     }
+
+    pub fn line_in(c: fn(&mut LineIn)) -> Register {
+        let mut li = LineIn::new();
+        c(&mut li);
+
+        Register {
+            position: 0,
+            value: li.data,
+        }
+    }
 }
 
 pub struct Register {
-    position: i16,
-    value: i16,
+    position: u16,
+    value: u16,
 }
 
 #[cfg(test)]
