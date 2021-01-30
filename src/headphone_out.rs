@@ -1,6 +1,6 @@
 #[derive(Debug, Copy, Clone)]
 pub struct HeadphoneOut {
-  pub data: u16,
+  pub(crate) data: u16,
 }
 
 impl HeadphoneOut {

@@ -7,7 +7,7 @@ pub enum Deemphasis {
 
 #[derive(Debug, Copy, Clone)]
 pub struct DigitalAudioPath {
-  pub data: u16,
+  pub(crate) data: u16,
 }
 
 impl DigitalAudioPath {

@@ -21,16 +21,6 @@ pub struct Register {
 pub struct WM8731 {}
 
 impl WM8731 {
-    pub fn power_down(c: fn(&mut PowerDown)) -> Register {
-        let mut pd = PowerDown::new();
-        c(&mut pd);
-
-        Register {
-            address: 9,
-            value: pd.data,
-        }
-    }
-
     pub fn left_line_in(c: fn(&mut LineIn)) -> Register {
         let mut li = LineIn::new();
         c(&mut li);
@@ -51,23 +41,23 @@ impl WM8731 {
         }
     }
 
-    pub fn right_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
-        let mut ho = HeadphoneOut::new();
-        c(&mut ho);
+    pub fn left_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
+        let mut lho = HeadphoneOut::new();
+        c(&mut lho);
 
         Register {
             address: 2,
-            value: ho.data,
+            value: lho.data,
         }
     }
 
-    pub fn left_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
-        let mut ho = HeadphoneOut::new();
-        c(&mut ho);
+    pub fn right_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
+        let mut rho = HeadphoneOut::new();
+        c(&mut rho);
 
         Register {
             address: 3,
-            value: ho.data,
+            value: rho.data,
         }
     }
 
@@ -90,6 +80,16 @@ impl WM8731 {
             value: dap.data,
         }
     }
+
+    pub fn power_down(c: fn(&mut PowerDown)) -> Register {
+        let mut pd = PowerDown::new();
+        c(&mut pd);
+
+        Register {
+            address: 6,
+            value: pd.data,
+        }
+    }
 }
 
 #[cfg(test)]
@@ -104,7 +104,7 @@ mod tests {
             c.dac();
         });
 
-        assert_eq!(result.address, 9);
+        assert_eq!(result.address, 6);
         assert_eq!(result.value, 0b0_0000_1101);
     }
 }
