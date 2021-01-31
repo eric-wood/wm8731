@@ -1,3 +1,9 @@
+use crate::BitMask;
+
+pub struct EnableDisable {
+  bitmask: BitMask,
+}
+
 #[derive(Debug, Copy, Clone)]
 pub struct PowerDown {
   pub(crate) data: u16,

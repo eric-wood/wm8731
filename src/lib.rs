@@ -1,5 +1,5 @@
-mod power_down;
-use power_down::PowerDown;
+mod bitmask;
+pub use bitmask::BitMask;
 
 mod line_in;
 use line_in::LineIn;
@@ -12,6 +12,9 @@ use analog_audio_path::AnalogAudioPath;
 
 mod digital_audio_path;
 use digital_audio_path::DigitalAudioPath;
+
+mod power_down;
+use power_down::PowerDown;
 
 mod digital_audio_interface_format;
 use digital_audio_interface_format::DigitalAudioInterfaceFormat;
