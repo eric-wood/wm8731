@@ -1,3 +1,27 @@
+use crate::BitMask;
+use crate::EnableDisable;
+
+pub struct LeftRight<'a> {
+  index: u16,
+  bitmask: BitMask<'a>,
+}
+
+impl<'a> LeftRight<'a> {
+  pub fn new(index: u16, data: &'a mut u16) -> Self {
+    let bitmask = BitMask::new(data);
+
+    LeftRight { index, bitmask }
+  }
+
+  pub fn left(&mut self) {
+    self.bitmask.set(self.index);
+  }
+
+  pub fn right(&mut self) {
+    self.bitmask.unset(self.index);
+  }
+}
+
 pub enum Format {
   DSP,
   I2S,
@@ -46,19 +70,19 @@ impl DigitalAudioInterfaceFormat {
     self.data = self.data | (bits << 2)
   }
 
-  pub fn left_right_phase(&mut self) {
-    self.data = self.data | 0b0_0001_0000
+  pub fn left_right_phase(&mut self) -> EnableDisable {
+    EnableDisable::new(4, &mut self.data)
   }
 
-  pub fn left_right_dac_clock_swap(&mut self) {
-    self.data = self.data | 0b0_0010_0000
+  pub fn left_right_dac_clock_swap(&mut self) -> LeftRight {
+    LeftRight::new(5, &mut self.data)
   }
 
-  pub fn master(&mut self) {
-    self.data = self.data | 0b0_0100_0000
+  pub fn master(&mut self) -> EnableDisable {
+    EnableDisable::new(6, &mut self.data)
   }
 
-  pub fn bit_clock_invert(&mut self) {
-    self.data = self.data | 0b0_1000_0000
+  pub fn bit_clock_invert(&mut self) -> EnableDisable {
+    EnableDisable::new(7, &mut self.data)
   }
 }
