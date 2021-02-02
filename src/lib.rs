@@ -115,9 +115,9 @@ mod tests {
     #[test]
     fn power_down() {
         let result = WM8731::power_down(|c| {
-            c.line_input();
-            c.adc();
-            c.dac();
+            c.line_input().enable();
+            c.adc().enable();
+            c.dac().enable();
         });
 
         assert_eq!(result.address, 6);
