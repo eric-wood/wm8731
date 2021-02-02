@@ -1,8 +1,32 @@
+use crate::BitMask;
+use crate::EnableDisable;
+
 pub enum Deemphasis {
   SampleRate48,
   SampleRate441,
   SampleRate32,
   Disable,
+}
+
+pub struct HpfDc<'a> {
+  index: u16,
+  bitmask: BitMask<'a>,
+}
+
+impl<'a> HpfDc<'a> {
+  pub fn new(index: u16, data: &'a mut u16) -> Self {
+    let bitmask = BitMask::new(data);
+
+    HpfDc { index, bitmask }
+  }
+
+  pub fn store(&mut self) {
+    self.bitmask.set(self.index);
+  }
+
+  pub fn clear(&mut self) {
+    self.bitmask.unset(self.index);
+  }
 }
 
 #[derive(Debug, Copy, Clone)]
@@ -31,11 +55,11 @@ impl DigitalAudioPath {
       }
   }
 
-  pub fn dac_mut(&mut self) {
-    self.data = self.data | 0b0_0000_1000
+  pub fn dac_mut(&mut self) -> EnableDisable {
+    EnableDisable::new(3, &mut self.data)
   }
 
-  pub fn hpor(&mut self) {
-    self.data = self.data | 0b0_0001_0000
+  pub fn hpor(&mut self) -> HpfDc {
+    HpfDc::new(4, &mut self.data)
   }
 }

@@ -1,6 +1,9 @@
 mod bitmask;
 pub use bitmask::BitMask;
 
+mod enable_disable;
+pub use enable_disable::EnableDisable;
+
 mod line_in;
 use line_in::LineIn;
 
