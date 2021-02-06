@@ -3,6 +3,8 @@ name = "wm8731"
 version = "0.1.0"
 authors = ["Eric Wood <eric@ericwood.org>"]
 edition = "2018"
+license = "MIT"
+description = "A simple HAL for the WM8731 audio codec"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

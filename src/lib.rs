@@ -1,3 +1,20 @@
+//! A simple HAL for the Cirrus Logic/Wolfson WM8731 audio codec
+//!
+//! This crate provides simple abstractions for the various control registers on the WM8731.
+//!
+//! Each function returns a [`Register`] struct, representing the address and value for the register.
+//! With the exception of `active` and `reset`, registers accept a function for configuration.
+//!
+//! For example, to power on/off certain features, we can call `power_down`:
+//!
+//! ```
+//! WM8731::power_down(|c| {
+//!     c.line_input().enable();
+//!     c.adc().enable();
+//!     c.dac().enable();
+//! });
+//! ```
+
 mod bitmask;
 pub use bitmask::BitMask;
 
@@ -36,9 +53,11 @@ pub struct Register {
     value: u16,
 }
 
+/// A simple HAL for the Cirrus Logic/ Wolfson WM8731 audio codec
 pub struct WM8731 {}
 
 impl WM8731 {
+    /// Left line input control register
     pub fn left_line_in(c: fn(&mut LineIn)) -> Register {
         let mut li = LineIn::new();
         c(&mut li);
@@ -49,6 +68,7 @@ impl WM8731 {
         }
     }
 
+    /// Right line in control register
     pub fn right_line_in(c: fn(&mut LineIn)) -> Register {
         let mut li = LineIn::new();
         c(&mut li);
@@ -59,6 +79,7 @@ impl WM8731 {
         }
     }
 
+    /// Left headphone out control register
     pub fn left_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
         let mut lho = HeadphoneOut::new();
         c(&mut lho);
@@ -69,6 +90,7 @@ impl WM8731 {
         }
     }
 
+    /// Right headphone out control register
     pub fn right_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
         let mut rho = HeadphoneOut::new();
         c(&mut rho);
@@ -79,6 +101,7 @@ impl WM8731 {
         }
     }
 
+    /// Analog audio path control register
     pub fn analog_audio_path(c: fn(&mut AnalogAudioPath)) -> Register {
         let mut aap = AnalogAudioPath::new();
         c(&mut aap);
@@ -89,6 +112,7 @@ impl WM8731 {
         }
     }
 
+    /// Digital audio path control register
     pub fn digital_audio_path(c: fn(&mut DigitalAudioPath)) -> Register {
         let mut dap = DigitalAudioPath::new();
         c(&mut dap);
@@ -99,6 +123,7 @@ impl WM8731 {
         }
     }
 
+    /// Power down control register
     pub fn power_down(c: fn(&mut PowerDown)) -> Register {
         let mut pd = PowerDown::new();
         c(&mut pd);
@@ -109,6 +134,7 @@ impl WM8731 {
         }
     }
 
+    /// Digital audio interface format control register
     pub fn digital_audio_interface_format(c: fn(&mut DigitalAudioInterfaceFormat)) -> Register {
         let mut daif = DigitalAudioInterfaceFormat::new();
         c(&mut daif);
@@ -119,6 +145,7 @@ impl WM8731 {
         }
     }
 
+    /// Sampling control register
     pub fn sampling(c: fn(&mut Sampling)) -> Register {
         let mut s = Sampling::new();
         c(&mut s);
@@ -129,10 +156,12 @@ impl WM8731 {
         }
     }
 
+    /// Active control register
     pub fn active() -> Active {
         Active::new(9)
     }
 
+    /// Reset register
     pub fn reset() -> Register {
         Register {
             address: 9,
