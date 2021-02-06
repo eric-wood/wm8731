@@ -22,6 +22,12 @@ use power_down::PowerDown;
 mod digital_audio_interface_format;
 use digital_audio_interface_format::DigitalAudioInterfaceFormat;
 
+mod sampling;
+use sampling::Sampling;
+
+mod sampling_rate;
+use sampling_rate::SamplingRate;
+
 pub struct Register {
     address: u8,
     value: u16,
@@ -109,6 +115,16 @@ impl WM8731 {
             value: daif.data,
         }
     }
+
+    pub fn sampling(c: fn(&mut Sampling)) -> Register {
+        let mut s = Sampling::new();
+        c(&mut s);
+
+        Register {
+            address: 8,
+            value: s.data,
+        }
+    }
 }
 
 #[cfg(test)]
@@ -125,5 +141,16 @@ mod tests {
 
         assert_eq!(result.address, 6);
         assert_eq!(result.value, 0b0_0000_1101);
+    }
+
+    #[test]
+    fn sampling_rate() {
+        let result = WM8731::sampling(|c| {
+            c.usb_normal().normal();
+            c.sample_rate().adc_96().dac_96();
+        });
+
+        assert_eq!(result.address, 8);
+        assert_eq!(result.value, 0b0_0001_1100);
     }
 }

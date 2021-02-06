@@ -41,8 +41,8 @@ impl DigitalAudioPath {
     }
   }
 
-  pub fn adc_hpf(&mut self) {
-    self.data = self.data | 0b0_0000_0001
+  pub fn adc_hpf(&mut self) -> EnableDisable {
+    EnableDisable::new(0, &mut self.data)
   }
 
   pub fn deemphasis(&mut self, value: Deemphasis) {
