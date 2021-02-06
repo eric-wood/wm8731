@@ -25,6 +25,9 @@ use digital_audio_interface_format::DigitalAudioInterfaceFormat;
 mod sampling;
 use sampling::Sampling;
 
+mod active;
+use active::Active;
+
 mod sampling_rate;
 use sampling_rate::SamplingRate;
 
@@ -123,6 +126,17 @@ impl WM8731 {
         Register {
             address: 8,
             value: s.data,
+        }
+    }
+
+    pub fn active() -> Active {
+        Active::new(9)
+    }
+
+    pub fn reset() -> Register {
+        Register {
+            address: 9,
+            value: 0,
         }
     }
 }
