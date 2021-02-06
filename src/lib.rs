@@ -163,7 +163,7 @@ impl WM8731 {
     /// Reset register
     pub fn reset() -> Register {
         Register {
-            address: 9,
+            address: 15,
             value: 0,
         }
     }
