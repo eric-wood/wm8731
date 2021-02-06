@@ -12,17 +12,11 @@ impl<'a> Adc48<'a> {
   }
 
   pub fn dac_48(&mut self) {
-    self.bitmask.unset(self.index + 0);
-    self.bitmask.unset(self.index + 1);
-    self.bitmask.unset(self.index + 2);
-    self.bitmask.unset(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b0000)
   }
 
   pub fn dac_8(&mut self) {
-    self.bitmask.set(self.index + 0);
-    self.bitmask.unset(self.index + 1);
-    self.bitmask.unset(self.index + 2);
-    self.bitmask.unset(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b0001)
   }
 }
 
@@ -38,17 +32,11 @@ impl<'a> Adc8<'a> {
   }
 
   pub fn dac_48(&mut self) {
-    self.bitmask.unset(self.index + 0);
-    self.bitmask.set(self.index + 1);
-    self.bitmask.unset(self.index + 2);
-    self.bitmask.unset(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b0010)
   }
 
   pub fn dac_8(&mut self) {
-    self.bitmask.set(self.index + 0);
-    self.bitmask.set(self.index + 1);
-    self.bitmask.unset(self.index + 2);
-    self.bitmask.unset(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b0011)
   }
 }
 
@@ -64,10 +52,7 @@ impl<'a> Adc32<'a> {
   }
 
   pub fn dac_32(&mut self) {
-    self.bitmask.unset(self.index + 0);
-    self.bitmask.set(self.index + 1);
-    self.bitmask.set(self.index + 2);
-    self.bitmask.unset(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b0110)
   }
 }
 
@@ -83,10 +68,7 @@ impl<'a> Adc96<'a> {
   }
 
   pub fn dac_96(&mut self) {
-    self.bitmask.set(self.index + 0);
-    self.bitmask.set(self.index + 1);
-    self.bitmask.set(self.index + 2);
-    self.bitmask.unset(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b0111)
   }
 }
 
@@ -102,17 +84,11 @@ impl<'a> Adc441<'a> {
   }
 
   pub fn dac_441(&mut self) {
-    self.bitmask.unset(self.index + 0);
-    self.bitmask.unset(self.index + 1);
-    self.bitmask.unset(self.index + 2);
-    self.bitmask.set(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b1000)
   }
 
   pub fn dac_8018(&mut self) {
-    self.bitmask.set(self.index + 0);
-    self.bitmask.unset(self.index + 1);
-    self.bitmask.unset(self.index + 2);
-    self.bitmask.set(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b1001)
   }
 }
 
@@ -128,17 +104,11 @@ impl<'a> Adc8018<'a> {
   }
 
   pub fn dac_441(&mut self) {
-    self.bitmask.unset(self.index + 0);
-    self.bitmask.set(self.index + 1);
-    self.bitmask.unset(self.index + 2);
-    self.bitmask.set(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b1010)
   }
 
   pub fn dac_8018(&mut self) {
-    self.bitmask.set(self.index + 0);
-    self.bitmask.set(self.index + 1);
-    self.bitmask.unset(self.index + 2);
-    self.bitmask.set(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b1011)
   }
 }
 
@@ -154,10 +124,7 @@ impl<'a> Adc882<'a> {
   }
 
   pub fn dac_882(&mut self) {
-    self.bitmask.set(self.index + 0);
-    self.bitmask.set(self.index + 1);
-    self.bitmask.set(self.index + 2);
-    self.bitmask.set(self.index + 3);
+    self.bitmask.apply(self.index, 4, 0b1111)
   }
 }
 
