@@ -1,4 +1,4 @@
-use crate::BitMask;
+use crate::bitmask::BitMask;
 
 pub struct EnableDisable<'a> {
   index: u16,

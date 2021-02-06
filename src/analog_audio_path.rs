@@ -1,4 +1,4 @@
-use crate::BitMask;
+use crate::bitmask::BitMask;
 use crate::EnableDisable;
 
 pub struct InputSelect<'a> {

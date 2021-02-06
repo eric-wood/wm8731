@@ -16,36 +16,35 @@
 //! ```
 
 mod bitmask;
-pub use bitmask::BitMask;
 
-mod enable_disable;
+pub mod enable_disable;
 pub use enable_disable::EnableDisable;
 
-mod line_in;
+pub mod line_in;
 use line_in::LineIn;
 
-mod headphone_out;
+pub mod headphone_out;
 use headphone_out::HeadphoneOut;
 
-mod analog_audio_path;
+pub mod analog_audio_path;
 use analog_audio_path::AnalogAudioPath;
 
-mod digital_audio_path;
+pub mod digital_audio_path;
 use digital_audio_path::DigitalAudioPath;
 
-mod power_down;
+pub mod power_down;
 use power_down::PowerDown;
 
-mod digital_audio_interface_format;
+pub mod digital_audio_interface_format;
 use digital_audio_interface_format::DigitalAudioInterfaceFormat;
 
-mod sampling;
+pub mod sampling;
 use sampling::Sampling;
 
-mod active;
+pub mod active;
 use active::Active;
 
-mod sampling_rate;
+pub mod sampling_rate;
 use sampling_rate::SamplingRate;
 
 pub struct Register {

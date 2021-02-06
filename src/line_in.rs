@@ -15,9 +15,13 @@ impl LineIn {
   }
 
   /// Line input volume
+  ///
   /// Min: -34.5dB
+  ///
   /// Max: +12dB
+  ///
   /// Steps of 1.5dB
+  ///
   /// *Note*: not implemented yet
   pub fn volume(&mut self, volume: u16) {
     self.data = self.data | 0b_0_0000_0000
