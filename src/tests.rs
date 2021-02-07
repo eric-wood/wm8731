@@ -85,8 +85,8 @@ fn possible_real_world() {
 
     // nothing inverted, slave, 24-bits, MSB format
     let result = WM8731::digital_audio_interface_format(|w| {
-        w.bit_clock_invert().disable();
-        w.master().disable();
+        w.bit_clock_invert().no_invert();
+        w.master_slave().slave();
         w.left_right_dac_clock_swap().right_channel_dac_data_right();
         w.left_right_phase().data_when_daclrc_low();
         w.bit_length().bits_24();

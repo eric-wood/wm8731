@@ -22,6 +22,48 @@ impl<'a> LeftRight<'a> {
     }
 }
 
+pub struct MasterSlave<'a> {
+    index: u16,
+    bitmask: BitMask<'a>,
+}
+
+impl<'a> MasterSlave<'a> {
+    pub fn new(index: u16, data: &'a mut u16) -> Self {
+        let bitmask = BitMask::new(data);
+
+        MasterSlave { index, bitmask }
+    }
+
+    pub fn master(&mut self) {
+        self.bitmask.set(self.index);
+    }
+
+    pub fn slave(&mut self) {
+        self.bitmask.unset(self.index);
+    }
+}
+
+pub struct Invert<'a> {
+    index: u16,
+    bitmask: BitMask<'a>,
+}
+
+impl<'a> Invert<'a> {
+    pub fn new(index: u16, data: &'a mut u16) -> Self {
+        let bitmask = BitMask::new(data);
+
+        Invert { index, bitmask }
+    }
+
+    pub fn invert(&mut self) {
+        self.bitmask.set(self.index);
+    }
+
+    pub fn no_invert(&mut self) {
+        self.bitmask.unset(self.index);
+    }
+}
+
 pub struct LeftRightPhase<'a> {
     index: u16,
     bitmask: BitMask<'a>,
@@ -167,12 +209,12 @@ impl DigitalAudioInterfaceFormat {
     }
 
     /// Master slave mode control
-    pub fn master(&mut self) -> EnableDisable {
-        EnableDisable::new(6, &mut self.data)
+    pub fn master_slave(&mut self) -> MasterSlave {
+        MasterSlave::new(6, &mut self.data)
     }
 
     /// Bit clock invert
-    pub fn bit_clock_invert(&mut self) -> EnableDisable {
-        EnableDisable::new(7, &mut self.data)
+    pub fn bit_clock_invert(&mut self) -> Invert {
+        Invert::new(7, &mut self.data)
     }
 }
