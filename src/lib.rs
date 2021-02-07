@@ -10,9 +10,9 @@
 //! ```
 //! # use wm8731::WM8731;
 //! WM8731::power_down(|c| {
-//!     c.line_input().enable();
-//!     c.adc().enable();
-//!     c.dac().enable();
+//!     c.line_input().power_off();
+//!     c.adc().power_off();
+//!     c.dac().power_off();
 //! });
 //! ```
 

@@ -11,9 +11,9 @@ use super::*;
 #[test]
 fn power_down() {
     let result = WM8731::power_down(|c| {
-        c.line_input().enable();
-        c.adc().enable();
-        c.dac().enable();
+        c.line_input().power_off();
+        c.adc().power_off();
+        c.dac().power_off();
     });
 
     assert_eq!(result.address, 6);
@@ -34,14 +34,14 @@ fn sampling_rate() {
 #[test]
 fn possible_real_world() {
     fn final_power_settings(w: &mut power_down::PowerDown) {
-        w.power_off().disable();
-        w.clock_output().enable();
-        w.oscillator().enable();
-        w.output().disable();
-        w.dac().disable();
-        w.adc().disable();
-        w.mic().enable();
-        w.line_input().disable();
+        w.power_off().power_on();
+        w.clock_output().power_off();
+        w.oscillator().power_off();
+        w.output().power_on();
+        w.dac().power_on();
+        w.adc().power_on();
+        w.mic().power_off();
+        w.line_input().power_on();
     }
 
     let result = WM8731::reset();
@@ -50,7 +50,7 @@ fn possible_real_world() {
 
     let result = WM8731::power_down(|w| {
         final_power_settings(w);
-        w.output().enable();
+        w.output().power_off();
     });
     assert_eq!(result.address, 0x6 /* power down */);
     assert_eq!(result.value, 0b0_0111_0010);
