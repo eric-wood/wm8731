@@ -5,6 +5,8 @@ authors = ["Eric Wood <eric@ericwood.org>"]
 edition = "2018"
 license = "MIT"
 description = "A simple HAL for the WM8731 audio codec"
+repository = "https://github.com/eric-wood/wm8731"
+categories = ["embedded", "no-std"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
