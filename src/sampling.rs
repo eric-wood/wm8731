@@ -39,7 +39,7 @@ impl<'a> ClockDivider<'a> {
         self.bitmask.set(self.index);
     }
 
-    pub fn noraml(&mut self) {
+    pub fn normal(&mut self) {
         self.bitmask.unset(self.index);
     }
 }
