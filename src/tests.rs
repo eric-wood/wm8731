@@ -68,7 +68,7 @@ fn possible_real_world() {
     let result = WM8731::analog_audio_path(|w| {
         w.sidetone().disable();
         w.dac_select().select();
-        w.bypass().line_input(); // not "line_input" at all, but that's bit-clear
+        w.bypass().disable();
         w.input_select().line_input();
         w.mute_mic().enable();
         w.mic_boost().disable();

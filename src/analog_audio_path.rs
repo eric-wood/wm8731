@@ -67,8 +67,8 @@ impl AnalogAudioPath {
         InputSelect::new(2, &mut self.data)
     }
 
-    pub fn bypass(&mut self) -> InputSelect {
-        InputSelect::new(3, &mut self.data)
+    pub fn bypass(&mut self) -> EnableDisable {
+        EnableDisable::new(3, &mut self.data)
     }
 
     pub fn dac_select(&mut self) -> DacSelect {
