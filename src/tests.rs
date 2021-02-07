@@ -2,7 +2,6 @@ extern crate std;
 
 use std::panic::catch_unwind;
 
-use crate::digital_audio_path::Deemphasis;
 use crate::WM8731;
 
 use super::*;
@@ -78,7 +77,7 @@ fn possible_real_world() {
     // disable DAC mute, deemphasis for 48k
     let result = WM8731::digital_audio_path(|w| {
         w.dac_mut();
-        w.deemphasis(Deemphasis::SampleRate48);
+        w.deemphasis().frequency_48();
     });
     assert_eq!(result.address, 0x5 /* digital audio path */);
     assert_eq!(result.value, 0b0_0000_0110);

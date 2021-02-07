@@ -1,3 +1,5 @@
+//! Configuration for analog audio path
+
 use crate::bitmask::BitMask;
 use crate::EnableDisable;
 
@@ -55,30 +57,37 @@ impl AnalogAudioPath {
         }
     }
 
+    /// Microphone input level boost
     pub fn mic_boost(&mut self) -> EnableDisable {
         EnableDisable::new(0, &mut self.data)
     }
 
+    /// Mic input mute to ADC
     pub fn mute_mic(&mut self) -> EnableDisable {
         EnableDisable::new(1, &mut self.data)
     }
 
+    /// Microphone/line input select to ADC
     pub fn input_select(&mut self) -> InputSelect {
         InputSelect::new(2, &mut self.data)
     }
 
+    /// Bypass switch
     pub fn bypass(&mut self) -> EnableDisable {
         EnableDisable::new(3, &mut self.data)
     }
 
+    /// DAC select
     pub fn dac_select(&mut self) -> DacSelect {
         DacSelect::new(4, &mut self.data)
     }
 
+    /// Side tone switch
     pub fn sidetone(&mut self) -> EnableDisable {
         EnableDisable::new(5, &mut self.data)
     }
 
+    /// Side tone attenuation
     pub fn sidetone_attenuation(&mut self) {
         // TODO: figure this out
         self.data |= 0b0_0000_0000
