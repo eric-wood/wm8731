@@ -1,3 +1,5 @@
+extern crate std;
+
 use std::panic::catch_unwind;
 
 use crate::digital_audio_interface_format::{Format, Length};

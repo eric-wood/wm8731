@@ -16,6 +16,8 @@
 //! });
 //! ```
 
+#![no_std]
+
 mod bitmask;
 
 pub mod enable_disable;
