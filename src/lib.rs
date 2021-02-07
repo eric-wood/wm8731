@@ -8,6 +8,7 @@
 //! For example, to power on/off certain features, we can call `power_down`:
 //!
 //! ```
+//! # use wm8731::WM8731;
 //! WM8731::power_down(|c| {
 //!     c.line_input().enable();
 //!     c.adc().enable();
