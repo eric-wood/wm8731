@@ -2,7 +2,6 @@ extern crate std;
 
 use std::panic::catch_unwind;
 
-use crate::digital_audio_interface_format::{Format, Length};
 use crate::digital_audio_path::Deemphasis;
 use crate::WM8731;
 
@@ -90,7 +89,7 @@ fn possible_real_world() {
         w.master().disable();
         w.left_right_dac_clock_swap().right_channel_dac_data_right();
         w.left_right_phase().data_when_daclrc_low();
-        w.bit_length(Length::Bits24);
+        w.bit_length().bits_24();
         w.format().left_justified();
     });
     assert_eq!(result.address, 0x7 /* digital audio interface */);

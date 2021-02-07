@@ -105,11 +105,33 @@ impl<'a> Format<'a> {
     }
 }
 
-pub enum Length {
-    Bits32,
-    Bits24,
-    Bits20,
-    Bits16,
+pub struct BitLength<'a> {
+    index: u16,
+    bitmask: BitMask<'a>,
+}
+
+impl<'a> BitLength<'a> {
+    pub fn new(index: u16, data: &'a mut u16) -> Self {
+        let bitmask = BitMask::new(data);
+
+        BitLength { index, bitmask }
+    }
+
+    pub fn bits_32(&mut self) {
+        self.bitmask.apply(self.index, 2, 0b11)
+    }
+
+    pub fn bits_24(&mut self) {
+        self.bitmask.apply(self.index, 2, 0b10)
+    }
+
+    pub fn bits_20(&mut self) {
+        self.bitmask.apply(self.index, 2, 0b01)
+    }
+
+    pub fn bits_16(&mut self) {
+        self.bitmask.apply(self.index, 2, 0b00)
+    }
 }
 
 #[derive(Debug, Copy, Clone)]
@@ -130,15 +152,8 @@ impl DigitalAudioInterfaceFormat {
     }
 
     /// Input audio data bit length select
-    pub fn bit_length(&mut self, length: Length) {
-        let bits = match length {
-            Length::Bits32 => 0b11,
-            Length::Bits24 => 0b10,
-            Length::Bits20 => 0b01,
-            Length::Bits16 => 0b00,
-        };
-
-        self.data |= bits << 2
+    pub fn bit_length(&mut self) -> BitLength {
+        BitLength::new(2, &mut self.data)
     }
 
     /// DACLRC phase control (in left, right, or I²S modes)
