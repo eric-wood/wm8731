@@ -1,4 +1,6 @@
 mod tests {
+    use std::panic::catch_unwind;
+
     use crate::digital_audio_interface_format::{Format, Length};
     use crate::digital_audio_path::Deemphasis;
     use crate::WM8731;
@@ -51,8 +53,7 @@ mod tests {
         let result = WM8731::left_line_in(|w| {
             w.both().disable();
             w.mute().disable();
-            // TODO: uncomment when implemented
-            // w.volume(0);
+            w.volume().nearest_dB(0);
         });
         assert_eq!(result.address, 0x0 /* left line in */);
         assert_eq!(result.value, 0b0_0001_0111);
@@ -119,5 +120,55 @@ mod tests {
         });
         assert_eq!(result.address, 0x6 /* power down */);
         assert_eq!(result.value, 0b0_0110_0010);
+    }
+
+    #[test]
+    fn line_input_volume() {
+        // Make sure valid values result in the expected bitfields
+        let result = WM8731::left_line_in(|w| w.volume().nearest_dB(0));
+        assert_eq!(result.value, 0b1_0111);
+
+        let result = WM8731::left_line_in(|w| w.volume().nearest_dB(12));
+        assert_eq!(result.value, 0b1_1111);
+
+        let result = WM8731::left_line_in(|w| w.volume().nearest_dB(-34));
+        assert_eq!(result.value, 0b0_0000);
+
+        // Make sure that in-between values get rounded
+        // 1dB gets rounded up to 1.5dB
+        let result = WM8731::left_line_in(|w| w.volume().nearest_dB(1));
+        assert_eq!(result.value, 0b1_1000);
+
+        // 2dB gets rounded down to 1.5dB
+        let result = WM8731::left_line_in(|w| w.volume().nearest_dB(2));
+        assert_eq!(result.value, 0b1_1000);
+
+        // 3dB does not round at all
+        let result = WM8731::left_line_in(|w| w.volume().nearest_dB(3));
+        assert_eq!(result.value, 0b1_1001);
+
+        // -1dB gets rounded down to -1.5dB
+        let result = WM8731::left_line_in(|w| w.volume().nearest_dB(-1));
+        assert_eq!(result.value, 0b1_0110);
+
+        // -2dB gets rounded up to -1.5dB
+        let result = WM8731::left_line_in(|w| w.volume().nearest_dB(-2));
+        assert_eq!(result.value, 0b1_0110);
+
+        // -3dB does not round at all
+        let result = WM8731::left_line_in(|w| w.volume().nearest_dB(-3));
+        assert_eq!(result.value, 0b1_0101);
+
+        // Make sure that out-of-range values panic
+        let result = catch_unwind(|| WM8731::left_line_in(|w| w.volume().nearest_dB(13)));
+        assert!(result.is_err());
+
+        let result = catch_unwind(|| WM8731::left_line_in(|w| w.volume().nearest_dB(-36)));
+        assert!(result.is_err());
+
+        // Make sure that all in-range values do not panic
+        for gain in -35..=12 {
+            let _ = WM8731::left_line_in(|w| w.volume().nearest_dB(gain));
+        }
     }
 }
