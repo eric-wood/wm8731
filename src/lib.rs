@@ -16,6 +16,8 @@
 //! });
 //! ```
 
+#![allow(clippy::new_without_default)]
+
 mod bitmask;
 
 pub mod enable_disable;
