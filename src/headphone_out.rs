@@ -22,7 +22,7 @@ impl HeadphoneOut {
     ///
     /// Step: 1dB
     pub fn volume(&mut self, volume: u16) {
-        self.data = self.data | 0b_0_0000_0000
+        self.data |= 0b0_0000_0000
     }
 
     /// Zero cross detect

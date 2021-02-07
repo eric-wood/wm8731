@@ -33,19 +33,24 @@ fn sampling_rate() {
 
 #[test]
 fn possible_real_world() {
+    fn final_power_settings(w: &mut power_down::PowerDown) {
+        w.power_off().disable();
+        w.clock_output().enable();
+        w.oscillator().enable();
+        w.output().disable();
+        w.dac().disable();
+        w.adc().disable();
+        w.mic().enable();
+        w.line_input().disable();
+    }
+
     let result = WM8731::reset();
     assert_eq!(result.address, 0xf /* reset */);
     assert_eq!(result.value, 0);
 
     let result = WM8731::power_down(|w| {
-        w.power_off().disable();
-        w.clock_output().enable();
-        w.oscillator().enable();
+        final_power_settings(w);
         w.output().enable();
-        w.dac().disable();
-        w.adc().disable();
-        w.mic().enable();
-        w.line_input().disable();
     });
     assert_eq!(result.address, 0x6 /* power down */);
     assert_eq!(result.value, 0b0_0111_0010);
@@ -107,18 +112,7 @@ fn possible_real_world() {
     assert_eq!(result.value, 0x1);
 
     // enable output
-    let result = WM8731::power_down(|w| {
-        w.power_off().disable();
-        w.clock_output().enable();
-        w.oscillator().enable();
-        // it is non-obvious that output() is the only change from the earlier power_down()
-        // call.
-        w.output().disable();
-        w.dac().disable();
-        w.adc().disable();
-        w.mic().enable();
-        w.line_input().disable();
-    });
+    let result = WM8731::power_down(final_power_settings);
     assert_eq!(result.address, 0x6 /* power down */);
     assert_eq!(result.value, 0b0_0110_0010);
 }

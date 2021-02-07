@@ -46,13 +46,12 @@ impl DigitalAudioPath {
     }
 
     pub fn deemphasis(&mut self, value: Deemphasis) {
-        self.data = self.data
-            | match value {
-                Deemphasis::SampleRate48 => 0b110,
-                Deemphasis::SampleRate441 => 0b100,
-                Deemphasis::SampleRate32 => 0b010,
-                Deemphasis::Disable => 0b000,
-            }
+        self.data |= match value {
+            Deemphasis::SampleRate48 => 0b110,
+            Deemphasis::SampleRate441 => 0b100,
+            Deemphasis::SampleRate32 => 0b010,
+            Deemphasis::Disable => 0b000,
+        }
     }
 
     pub fn dac_mut(&mut self) -> EnableDisable {

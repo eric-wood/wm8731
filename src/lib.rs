@@ -17,6 +17,7 @@
 //! ```
 
 #![no_std]
+#![allow(clippy::new_without_default)]
 
 mod bitmask;
 
@@ -51,8 +52,8 @@ pub mod sampling_rate;
 use sampling_rate::SamplingRate;
 
 pub struct Register {
-    address: u8,
-    value: u16,
+    pub address: u8,
+    pub value: u16,
 }
 
 #[cfg(test)]

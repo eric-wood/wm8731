@@ -81,6 +81,6 @@ impl AnalogAudioPath {
 
     pub fn sidetone_attenuation(&mut self) {
         // TODO: figure this out
-        self.data = self.data | 0b0_0000_0000
+        self.data |= 0b0_0000_0000
     }
 }

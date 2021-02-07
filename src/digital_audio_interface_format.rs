@@ -56,7 +56,7 @@ impl DigitalAudioInterfaceFormat {
             Format::RightJustified => 0b00,
         };
 
-        self.data = self.data | bits
+        self.data |= bits
     }
 
     pub fn bit_length(&mut self, length: Length) {
@@ -67,7 +67,7 @@ impl DigitalAudioInterfaceFormat {
             Length::Bits16 => 0b00,
         };
 
-        self.data = self.data | (bits << 2)
+        self.data |= bits << 2
     }
 
     pub fn left_right_phase(&mut self) -> EnableDisable {
