@@ -49,8 +49,8 @@ pub mod sampling_rate;
 use sampling_rate::SamplingRate;
 
 pub struct Register {
-    address: u8,
-    value: u16,
+    pub address: u8,
+    pub value: u16,
 }
 
 #[cfg(test)]

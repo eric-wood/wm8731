@@ -56,7 +56,7 @@ impl DigitalAudioInterfaceFormat {
             Format::RightJustified => 0b00,
         };
 
-        self.data = self.data | bits
+        self.data |= bits
     }
 
     pub fn bit_length(&mut self, length: Length) {
