@@ -89,7 +89,7 @@ fn possible_real_world() {
         w.bit_clock_invert().disable();
         w.master().disable();
         w.left_right_dac_clock_swap().right_channel_dac_data_right();
-        w.left_right_phase().disable();
+        w.left_right_phase().data_when_daclrc_low();
         w.bit_length(Length::Bits24);
         w.format(Format::LeftJustified);
     });

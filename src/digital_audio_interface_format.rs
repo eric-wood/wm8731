@@ -22,6 +22,39 @@ impl<'a> LeftRight<'a> {
     }
 }
 
+pub struct LeftRightPhase<'a> {
+    index: u16,
+    bitmask: BitMask<'a>,
+}
+
+impl<'a> LeftRightPhase<'a> {
+    pub fn new(index: u16, data: &'a mut u16) -> Self {
+        let bitmask = BitMask::new(data);
+
+        LeftRightPhase { index, bitmask }
+    }
+
+    /// In I²S mode, right channel DAC data when DACLRC is high
+    pub fn data_when_daclrc_high(&mut self) {
+        self.bitmask.set(self.index);
+    }
+
+    /// In I²S mode, right channel DAC data when DACLRC is low
+    pub fn data_when_daclrc_low(&mut self) {
+        self.bitmask.unset(self.index);
+    }
+
+    /// In DSP mode, MSB is available on 2nd BCLK rising edge after DACLRC rising edge
+    pub fn data_on_second_rising_edge(&mut self) {
+        self.bitmask.set(self.index);
+    }
+
+    /// In DSP mode, MSB is available on 1st BCLK rising edge after DACLRC rising edge
+    pub fn data_on_first_rising_edge(&mut self) {
+        self.bitmask.unset(self.index);
+    }
+}
+
 pub struct ClockSwap<'a> {
     index: u16,
     bitmask: BitMask<'a>,
@@ -69,6 +102,7 @@ impl DigitalAudioInterfaceFormat {
         }
     }
 
+    /// Audio data format select
     pub fn format(&mut self, format: Format) {
         let bits = match format {
             Format::DSP => 0b11,
@@ -80,6 +114,7 @@ impl DigitalAudioInterfaceFormat {
         self.data |= bits
     }
 
+    /// Input audio data bit length select
     pub fn bit_length(&mut self, length: Length) {
         let bits = match length {
             Length::Bits32 => 0b11,
@@ -91,18 +126,22 @@ impl DigitalAudioInterfaceFormat {
         self.data |= bits << 2
     }
 
-    pub fn left_right_phase(&mut self) -> EnableDisable {
-        EnableDisable::new(4, &mut self.data)
+    /// DACLRC phase control (in left, right, or I²S modes)
+    pub fn left_right_phase(&mut self) -> LeftRightPhase {
+        LeftRightPhase::new(4, &mut self.data)
     }
 
+    /// DAC left/right clock swap
     pub fn left_right_dac_clock_swap(&mut self) -> ClockSwap {
         ClockSwap::new(5, &mut self.data)
     }
 
+    /// Master slave mode control
     pub fn master(&mut self) -> EnableDisable {
         EnableDisable::new(6, &mut self.data)
     }
 
+    /// Bit clock invert
     pub fn bit_clock_invert(&mut self) -> EnableDisable {
         EnableDisable::new(7, &mut self.data)
     }
