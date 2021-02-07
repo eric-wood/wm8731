@@ -97,7 +97,7 @@ fn possible_real_world() {
     // no clock division, normal mode, 48k
     let result = WM8731::sampling(|w| {
         w.core_clock_divider_select().normal();
-        w.base_oversampling_rate().disable();
+        w.base_oversampling_rate().normal_256();
         w.sample_rate().adc_48();
         w.usb_normal().normal();
     });

@@ -1,3 +1,5 @@
+//! Control to activate/deactivate interface
+
 use crate::Register;
 
 pub struct Active {
@@ -9,6 +11,7 @@ impl Active {
         Active { address }
     }
 
+    /// Activate interface
     pub fn inactive(&self) -> Register {
         Register {
             address: self.address,
@@ -16,6 +19,7 @@ impl Active {
         }
     }
 
+    /// Deactivate interface
     pub fn active(&self) -> Register {
         Register {
             address: self.address,

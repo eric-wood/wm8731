@@ -1,5 +1,6 @@
+//! Configuration for the digital audio interface
+
 use crate::bitmask::BitMask;
-use crate::EnableDisable;
 
 pub struct LeftRight<'a> {
     index: u16,
