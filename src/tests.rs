@@ -91,7 +91,7 @@ fn possible_real_world() {
         w.left_right_dac_clock_swap().right_channel_dac_data_right();
         w.left_right_phase().data_when_daclrc_low();
         w.bit_length(Length::Bits24);
-        w.format(Format::LeftJustified);
+        w.format().left_justified();
     });
     assert_eq!(result.address, 0x7 /* digital audio interface */);
     assert_eq!(result.value, 0b0_0000_1001);

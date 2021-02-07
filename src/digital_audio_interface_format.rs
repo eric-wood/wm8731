@@ -76,11 +76,33 @@ impl<'a> ClockSwap<'a> {
     }
 }
 
-pub enum Format {
-    DSP,
-    I2S,
-    LeftJustified,
-    RightJustified,
+pub struct Format<'a> {
+    index: u16,
+    bitmask: BitMask<'a>,
+}
+
+impl<'a> Format<'a> {
+    pub fn new(index: u16, data: &'a mut u16) -> Self {
+        let bitmask = BitMask::new(data);
+
+        Format { index, bitmask }
+    }
+
+    pub fn dsp(&mut self) {
+        self.bitmask.apply(self.index, 2, 0b11)
+    }
+
+    pub fn i2s(&mut self) {
+        self.bitmask.apply(self.index, 2, 0b10)
+    }
+
+    pub fn left_justified(&mut self) {
+        self.bitmask.apply(self.index, 2, 0b01)
+    }
+
+    pub fn right_justified(&mut self) {
+        self.bitmask.apply(self.index, 2, 0b00)
+    }
 }
 
 pub enum Length {
@@ -103,15 +125,8 @@ impl DigitalAudioInterfaceFormat {
     }
 
     /// Audio data format select
-    pub fn format(&mut self, format: Format) {
-        let bits = match format {
-            Format::DSP => 0b11,
-            Format::I2S => 0b10,
-            Format::LeftJustified => 0b01,
-            Format::RightJustified => 0b00,
-        };
-
-        self.data |= bits
+    pub fn format(&mut self) -> Format {
+        Format::new(0, &mut self.data)
     }
 
     /// Input audio data bit length select
