@@ -22,6 +22,27 @@ impl<'a> LeftRight<'a> {
     }
 }
 
+pub struct ClockSwap<'a> {
+    index: u16,
+    bitmask: BitMask<'a>,
+}
+
+impl<'a> ClockSwap<'a> {
+    pub fn new(index: u16, data: &'a mut u16) -> Self {
+        let bitmask = BitMask::new(data);
+
+        ClockSwap { index, bitmask }
+    }
+
+    pub fn right_channel_dac_data_left(&mut self) {
+        self.bitmask.set(self.index);
+    }
+
+    pub fn right_channel_dac_data_right(&mut self) {
+        self.bitmask.unset(self.index);
+    }
+}
+
 pub enum Format {
     DSP,
     I2S,
@@ -74,8 +95,8 @@ impl DigitalAudioInterfaceFormat {
         EnableDisable::new(4, &mut self.data)
     }
 
-    pub fn left_right_dac_clock_swap(&mut self) -> LeftRight {
-        LeftRight::new(5, &mut self.data)
+    pub fn left_right_dac_clock_swap(&mut self) -> ClockSwap {
+        ClockSwap::new(5, &mut self.data)
     }
 
     pub fn master(&mut self) -> EnableDisable {
