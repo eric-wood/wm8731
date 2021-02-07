@@ -58,7 +58,7 @@ pub struct WM8731 {}
 
 impl WM8731 {
     /// Left line input control register
-    pub fn left_line_in(c: fn(&mut LineIn)) -> Register {
+    pub fn left_line_in<F: FnOnce(&mut LineIn)>(c: F) -> Register {
         let mut li = LineIn::new();
         c(&mut li);
 
@@ -69,7 +69,7 @@ impl WM8731 {
     }
 
     /// Right line in control register
-    pub fn right_line_in(c: fn(&mut LineIn)) -> Register {
+    pub fn right_line_in<F: FnOnce(&mut LineIn)>(c: F) -> Register {
         let mut li = LineIn::new();
         c(&mut li);
 
@@ -80,7 +80,7 @@ impl WM8731 {
     }
 
     /// Left headphone out control register
-    pub fn left_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
+    pub fn left_headphone_out<F: FnOnce(&mut HeadphoneOut)>(c: F) -> Register {
         let mut lho = HeadphoneOut::new();
         c(&mut lho);
 
@@ -91,7 +91,7 @@ impl WM8731 {
     }
 
     /// Right headphone out control register
-    pub fn right_headphone_out(c: fn(&mut HeadphoneOut)) -> Register {
+    pub fn right_headphone_out<F: FnOnce(&mut HeadphoneOut)>(c: F) -> Register {
         let mut rho = HeadphoneOut::new();
         c(&mut rho);
 
@@ -102,7 +102,7 @@ impl WM8731 {
     }
 
     /// Analog audio path control register
-    pub fn analog_audio_path(c: fn(&mut AnalogAudioPath)) -> Register {
+    pub fn analog_audio_path<F: FnOnce(&mut AnalogAudioPath)>(c: F) -> Register {
         let mut aap = AnalogAudioPath::new();
         c(&mut aap);
 
@@ -113,7 +113,7 @@ impl WM8731 {
     }
 
     /// Digital audio path control register
-    pub fn digital_audio_path(c: fn(&mut DigitalAudioPath)) -> Register {
+    pub fn digital_audio_path<F: FnOnce(&mut DigitalAudioPath)>(c: F) -> Register {
         let mut dap = DigitalAudioPath::new();
         c(&mut dap);
 
@@ -124,7 +124,7 @@ impl WM8731 {
     }
 
     /// Power down control register
-    pub fn power_down(c: fn(&mut PowerDown)) -> Register {
+    pub fn power_down<F: FnOnce(&mut PowerDown)>(c: F) -> Register {
         let mut pd = PowerDown::new();
         c(&mut pd);
 
@@ -135,7 +135,9 @@ impl WM8731 {
     }
 
     /// Digital audio interface format control register
-    pub fn digital_audio_interface_format(c: fn(&mut DigitalAudioInterfaceFormat)) -> Register {
+    pub fn digital_audio_interface_format<F: FnOnce(&mut DigitalAudioInterfaceFormat)>(
+        c: F,
+    ) -> Register {
         let mut daif = DigitalAudioInterfaceFormat::new();
         c(&mut daif);
 
@@ -146,7 +148,7 @@ impl WM8731 {
     }
 
     /// Sampling control register
-    pub fn sampling(c: fn(&mut Sampling)) -> Register {
+    pub fn sampling<F: FnOnce(&mut Sampling)>(c: F) -> Register {
         let mut s = Sampling::new();
         c(&mut s);
 
