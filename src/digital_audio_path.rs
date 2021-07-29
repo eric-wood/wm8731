@@ -76,7 +76,7 @@ impl DigitalAudioPath {
     }
 
     /// DAC soft mute control
-    pub fn dac_mut(&mut self) -> EnableDisable {
+    pub fn dac_mute(&mut self) -> EnableDisable {
         EnableDisable::new(3, &mut self.data)
     }
 
