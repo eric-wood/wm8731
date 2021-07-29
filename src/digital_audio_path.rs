@@ -61,7 +61,7 @@ pub struct DigitalAudioPath {
 impl DigitalAudioPath {
     pub fn new() -> Self {
         DigitalAudioPath {
-            data: 0b0_0000_0000,
+            data: 0b0_0000_1000,
         }
     }
 

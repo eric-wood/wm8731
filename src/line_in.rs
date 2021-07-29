@@ -64,7 +64,7 @@ impl<'a> Volume<'a> {
 impl LineIn {
     pub fn new() -> Self {
         LineIn {
-            data: 0b0_0000_0000,
+            data: 0b0_1001_0111,
         }
     }
 

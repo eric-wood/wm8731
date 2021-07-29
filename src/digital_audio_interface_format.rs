@@ -185,7 +185,7 @@ pub struct DigitalAudioInterfaceFormat {
 impl DigitalAudioInterfaceFormat {
     pub fn new() -> Self {
         DigitalAudioInterfaceFormat {
-            data: 0b0_0000_0000,
+            data: 0b0_0000_1010,
         }
     }
 
