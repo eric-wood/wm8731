@@ -65,8 +65,8 @@ impl DigitalAudioPath {
         }
     }
 
-    /// ADC high pass filter
-    pub fn adc_hpf(&mut self) -> EnableDisable {
+    /// Disable ADC high pass filter. Enabling this disable the high pass filter
+    pub fn adc_hpf_disable(&mut self) -> EnableDisable {
         EnableDisable::new(0, &mut self.data)
     }
 
