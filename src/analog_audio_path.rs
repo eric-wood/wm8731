@@ -53,7 +53,7 @@ pub struct AnalogAudioPath {
 impl AnalogAudioPath {
     pub fn new() -> Self {
         AnalogAudioPath {
-            data: 0b0_0000_0000,
+            data: 0b0_0000_1010,
         }
     }
 

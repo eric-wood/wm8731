@@ -53,6 +53,25 @@ impl<'a> HpfDc<'a> {
     }
 }
 
+pub struct AdcHpf<'a> {
+    index: u16,
+    bitmask: BitMask<'a>,
+}
+
+impl<'a> AdcHpf<'a> {
+    pub fn new(index: u16, data: &'a mut u16) -> Self {
+        let bitmask = BitMask::new(data);
+
+        AdcHpf { index, bitmask }
+    }
+    pub fn enable(&mut self) {
+        self.bitmask.unset(self.index);
+    }
+
+    pub fn disable(&mut self) {
+        self.bitmask.set(self.index);
+    }
+}
 #[derive(Debug, Copy, Clone)]
 pub struct DigitalAudioPath {
     pub(crate) data: u16,
@@ -61,13 +80,15 @@ pub struct DigitalAudioPath {
 impl DigitalAudioPath {
     pub fn new() -> Self {
         DigitalAudioPath {
-            data: 0b0_0000_0000,
+            data: 0b0_0000_1000,
         }
     }
 
-    /// ADC high pass filter
-    pub fn adc_hpf(&mut self) -> EnableDisable {
-        EnableDisable::new(0, &mut self.data)
+    /// Enable or disable ADC high pass filter.
+    ///
+    /// Under the hood, ADC high pass filter is enabled by setting the ADCHPD bit to zero.    
+    pub fn adc_hpf(&mut self) -> AdcHpf {
+        AdcHpf::new(0, &mut self.data)
     }
 
     /// De-emphasis control
@@ -76,7 +97,7 @@ impl DigitalAudioPath {
     }
 
     /// DAC soft mute control
-    pub fn dac_mut(&mut self) -> EnableDisable {
+    pub fn dac_mute(&mut self) -> EnableDisable {
         EnableDisable::new(3, &mut self.data)
     }
 

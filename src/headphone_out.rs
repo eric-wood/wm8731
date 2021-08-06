@@ -10,7 +10,7 @@ pub struct HeadphoneOut {
 impl HeadphoneOut {
     pub fn new() -> Self {
         HeadphoneOut {
-            data: 0b0_0000_0000,
+            data: 0b0_0111_1001,
         }
     }
 
